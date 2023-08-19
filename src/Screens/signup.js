@@ -14,15 +14,15 @@ function SignUp() {
         <div className="inClass" style={{ width:'500px', height:'500px' ,marginLeft:'800px'}}>
           <center>
             <h2 style={{ fontSize: '40px', fontFamily: 'Poppins, sans-serif', fontWeight: 'bold',color:"black" }} >SIGN UP</h2>
-            <input className="inputClass" type="text" placeholder="Name" required />
+            <input className="inputClass" type="text" placeholder="Name" value={uname} onChange={handleNameChange} required />
 
-            <input className="inputClass" type="text" placeholder="Address" required />
+            <input className="inputClass" type="email" placeholder="Email" value={uemail} onChange={handleEmailChange}required />
 
-            <input className="inputClass" type="email" placeholder="Email" required />
+            <input className="inputClass" type="password" placeholder="Password" value={upassword} onChange={handlePasswordChange} required />
 
-            <input className="inputClass" type="password" placeholder="Password" required />
+            <input className="inputClass" type="password" placeholder="Confirm Password" required />
 
-            <input className="inputClass" type="number" placeholder="Mobile" required />
+            <input className="inputClass" type="number" placeholder="Mobile" value={mobile} onChange={handleMobileChange} required />
             <br />
 
             <button className="button-6" style={{marginTop:"10px"}}>Register</button>
