@@ -3,6 +3,55 @@ import '../Screens/CSS/signup.css';
 
 function SignUp() {
   const logoSrc = "https://drive.google.com/uc?id=1-K4qi7rN42OF0596nSWDv6WMv7XL-IB0";
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [mobile, setMobile] = useState("");
+  const history = useHistory();
+  const [error, setError] = useState("");
+  const userData = {
+    name: name,
+    email: email,
+    password: password,
+    mobile: mobile,
+  };
+  
+  const handleNameChange = (e) => {
+    setName(e.target.value);
+  };
+
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const handleMobileChange = (e) => {
+    setMobile(e.target.value);
+  };
+
+  const xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          const data = JSON.parse(xhr.responseText);
+          setError("User added successfully");
+          history.push("/login");
+        } else {
+          setError("Error adding user");
+        }
+      }
+    };
+
+    xhr.open("POST", "http://localhost:55955/api/Trains");
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(JSON.stringify(userData));
+    console.log(userData);
+  };
 
   return (
     <div style={{ background:"grey",height:"88vh", backgroundSize: 'cover', backgroundPosition: 'center',marginTop:"-20px" }}>
@@ -14,15 +63,15 @@ function SignUp() {
         <div className="inClass" style={{ width:'500px', height:'500px' ,marginLeft:'800px'}}>
           <center>
             <h2 style={{ fontSize: '40px', fontFamily: 'Poppins, sans-serif', fontWeight: 'bold',color:"black" }} >SIGN UP</h2>
-            <input className="inputClass" type="text" placeholder="Name" value={uname} onChange={handleNameChange} required />
+            <input className="inputClass" type="text" placeholder="Name"  id="name" value={uname} onChange={handleNameChange} required />
 
-            <input className="inputClass" type="email" placeholder="Email" value={uemail} onChange={handleEmailChange}required />
+            <input className="inputClass" type="email" placeholder="Email" id="email" value={uemail} onChange={handleEmailChange}required />
 
-            <input className="inputClass" type="password" placeholder="Password" value={upassword} onChange={handlePasswordChange} required />
+            <input className="inputClass" type="password" placeholder="Password" id="password" value={upassword} onChange={handlePasswordChange} required />
 
-            <input className="inputClass" type="password" placeholder="Confirm Password" required />
+            <input className="inputClass" type="password" placeholder="Confirm Password " id="confirmPassword" required />
 
-            <input className="inputClass" type="number" placeholder="Mobile" value={mobile} onChange={handleMobileChange} required />
+            <input className="inputClass" type="number" placeholder="Mobile" id="mobile" value={mobile} onChange={handleMobileChange} required />
             <br />
 
             <button className="button-6" style={{marginTop:"10px"}}>Register</button>
@@ -31,6 +80,6 @@ function SignUp() {
       </form>
     </div>
   );
-}
 
+}
 export default SignUp;
