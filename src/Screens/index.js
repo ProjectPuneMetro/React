@@ -11,6 +11,8 @@ import ContactUs from "./contact";
 import Network from "./network";
 import EditProfile from "./editprofile";
 import BookTicket from "./bookTicket";
+import Admin from "./Admin";
+
 function Controller() {
   var { path } = useParams();
   return (
@@ -28,6 +30,8 @@ function Controller() {
         <Route exact path="/contact" component={ContactUs} />
         <Route exact path="/editprofile" component={EditProfile} />
         <Route exact path="/book" component={BookTicket} />
+        <Route exact path="/Admin" component={Admin} />
+       
         
       </Switch>
     </BrowserRouter>
