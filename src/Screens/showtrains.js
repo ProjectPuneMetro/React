@@ -1,519 +1,82 @@
-import React, {useState, useEffect} from 'react';
-import './CSS/ShowTrains.css'; // Import the CSS file for styling
-import '../../node_modules/bootstrap/dist/css/bootstrap.css';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-
-
+import './CSS/ShowTrains.css';
+import '../../node_modules/bootstrap/dist/css/bootstrap.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { settrain_id as setTrainId } from '../features/bookingSlice';
 function ShowTrains() {
+  const dispatch = useDispatch()
   const history = useHistory();
-  const [sStation, setSStation] = useState('');
-  const [departureTime, setDepartureTime] = useState('');
-  const [travelTime, setTravelTime] = useState('');
-  const [platform, setPlatform] = useState('');
-  const [sourceStations, setSourceStations] = useState('');
-  const [destinationStation, setDestinationStation] = useState('');
- 
+  const [trains, setTrains] = useState([]);
+
   const showTrain = () => {
-    const helper = new XMLHttpRequest();
-    helper.onreadystatechange = () => {
-        if(helper.readyState == 4 && helper.status == 200)
-        {
-          const data = JSON.parse(helper.responseText);
-          
-        }
-    }
-    helper.open("GET","");
-    helper.sendRequestHeader();
-    helper.send();
+    fetch('http://localhost:53331/api/trains')
+      .then(response => response.json())
+      .then(data => {
+        setTrains(data);
+      })
+      .catch(error => {
+        console.error('Error fetching train data:', error);
+      });
   };
 
-  const ToBookSeat = () => {
+  useEffect(() => {
+    showTrain();
+  }, []);
+
+  const toBookSeat = (trainId) => {
+    console.log(trainId);
+      dispatch(setTrainId(trainId));
+    
     history.push('/book');
-  }
+  };
+
   return (
-    <>
-      {/* <div className="container ">
-        <div className="row col-md-4">
-          <div className="">
-        
-            <table className="table table-bordered">
-              <tbody>
-                <tr>
-                  <td>
-                    <h3 className="source-station">Source Station1</h3>
-                  </td>
-                  <td>
-                    <h6 className="departure-time">12.30 pm</h6>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <h6 className="travel-time">30 min</h6>
-                  </td>
-                  <td>
-                    <h6 className="platform">Platform no.1</h6>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan="2">
-                    <h5 className="show-stations">Show Stations</h5>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan="2">
-                    <h3 className="destination-station">Destination Station</h3>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan="2">
-                    <center>
-                    <button className='button-34' onClick={ToBookSeat}>Book</button>
-                    </center>
-                  
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <table className="table table-bordered">
-              <tbody>
-                <tr>
-                  <td>
-                    <h3 className="source-station">Source Station1</h3>
-                  </td>
-                  <td>
-                    <h6 className="departure-time">12.30 pm</h6>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <h6 className="travel-time">30 min</h6>
-                  </td>
-                  <td>
-                    <h6 className="platform">Platform no.1</h6>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan="2">
-                    <h5 className="show-stations">Show Stations</h5>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan="2">
-                    <h3 className="destination-station">Destination Station</h3>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan="2">
-                    <center>
-                    <button className='button-34' onClick={ToBookSeat}>Book</button>
-                    </center>
-                  
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <table className="table table-bordered">
-              <tbody>
-                <tr>
-                  <td>
-                    <h3 className="source-station">Source Station1</h3>
-                  </td>
-                  <td>
-                    <h6 className="departure-time">12.30 pm</h6>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <h6 className="travel-time">30 min</h6>
-                  </td>
-                  <td>
-                    <h6 className="platform">Platform no.1</h6>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan="2">
-                    <h5 className="show-stations">Show Stations</h5>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan="2">
-                    <h3 className="destination-station">Destination Station</h3>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan="2">
-                    <center>
-                    <button className='button-34' onClick={ToBookSeat}>Book</button>
-                    </center>
-                  
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <table className="table table-bordered">
-              <tbody>
-                <tr>
-                  <td>
-                    <h3 className="source-station">Source Station1</h3>
-                  </td>
-                  <td>
-                    <h6 className="departure-time">12.30 pm</h6>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <h6 className="travel-time">30 min</h6>
-                  </td>
-                  <td>
-                    <h6 className="platform">Platform no.1</h6>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan="2">
-                    <h5 className="show-stations">Show Stations</h5>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan="2">
-                    <h3 className="destination-station">Destination Station</h3>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan="2">
-                    <center>
-                    <button className='button-34' onClick={ToBookSeat}>Book</button>
-                    </center>
-                  
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-         
+    <div className="container">
+      {trains.map(train => (
+        <div className='col-md-3'>
+        <table key={train.train_id} className="table table-bordered ">
+          <tbody>
+            <tr>
+              <td>
+                <h3 className="source-station">{train.train_name}</h3>
+              </td>
+              <td>
+                <h6 className="departure-time">{train.departure_time}</h6>
+              </td>
+            </tr>
+            {/* <tr>
+              <td>
+                <h6 className="travel-time">{train.travel_time} min</h6>
+              </td>
+              <td>
+                <h6 className="platform">Platform no.{train.platform}</h6>
+              </td>
+            </tr> */}
+            <tr>
+              <td colSpan="2">
+                <h5 className="show-stations">{train.source_station} - {train.destination_station}</h5>
+              </td>
+            </tr>
+            <tr>
+              <td colSpan="2">
+                <h3 className="destination-station">{train.destination_station}</h3>
+              </td>
+            </tr>
+            <tr>
+              <td colSpan="2">
+                <center>
+                  <button className="button-34" onClick={() => toBookSeat(train.train_id)}>
+                    Book
+                  </button>
+                </center>
+              </td>
+            </tr>
+          </tbody>
+        </table>
         </div>
-        <div className="row col-md-4">
-          <div className="col">
-        
-            <table className="table table-bordered">
-              <tbody>
-                <tr>
-                  <td>
-                    <h3 className="source-station">Source Station1</h3>
-                  </td>
-                  <td>
-                    <h6 className="departure-time">12.30 pm</h6>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <h6 className="travel-time">30 min</h6>
-                  </td>
-                  <td>
-                    <h6 className="platform">Platform no.1</h6>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan="2">
-                    <h5 className="show-stations">Show Stations</h5>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan="2">
-                    <h3 className="destination-station">Destination Station</h3>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan="2">
-                    <center>
-                    <button className='button-34' onClick={ToBookSeat}>Book</button>
-                    </center>
-                  
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <table className="table table-bordered">
-              <tbody>
-                <tr>
-                  <td>
-                    <h3 className="source-station">Source Station1</h3>
-                  </td>
-                  <td>
-                    <h6 className="departure-time">12.30 pm</h6>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <h6 className="travel-time">30 min</h6>
-                  </td>
-                  <td>
-                    <h6 className="platform">Platform no.1</h6>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan="2">
-                    <h5 className="show-stations">Show Stations</h5>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan="2">
-                    <h3 className="destination-station">Destination Station</h3>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan="2">
-                    <center>
-                    <button className='button-34' onClick={ToBookSeat}>Book</button>
-                    </center>
-                  
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <table className="table table-bordered">
-              <tbody>
-                <tr>
-                  <td>
-                    <h3 className="source-station">Source Station1</h3>
-                  </td>
-                  <td>
-                    <h6 className="departure-time">12.30 pm</h6>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <h6 className="travel-time">30 min</h6>
-                  </td>
-                  <td>
-                    <h6 className="platform">Platform no.1</h6>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan="2">
-                    <h5 className="show-stations">Show Stations</h5>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan="2">
-                    <h3 className="destination-station">Destination Station</h3>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan="2">
-                    <center>
-                    <button className='button-34' onClick={ToBookSeat}>Book</button>
-                    </center>
-                  
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <table className="table table-bordered">
-              <tbody>
-                <tr>
-                  <td>
-                    <h3 className="source-station">Source Station1</h3>
-                  </td>
-                  <td>
-                    <h6 className="departure-time">12.30 pm</h6>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <h6 className="travel-time">30 min</h6>
-                  </td>
-                  <td>
-                    <h6 className="platform">Platform no.1</h6>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan="2">
-                    <h5 className="show-stations">Show Stations</h5>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan="2">
-                    <h3 className="destination-station">Destination Station</h3>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan="2">
-                    <center>
-                    <button className='button-34' onClick={ToBookSeat}>Book</button>
-                    </center>
-                  
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-         
-        </div>
-        <div className="row col-md-4">
-          <div className="col">
-        
-            <table className="table table-bordered">
-              <tbody>
-                <tr>
-                  <td>
-                    <h3 className="source-station">Source Station1</h3>
-                  </td>
-                  <td>
-                    <h6 className="departure-time">12.30 pm</h6>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <h6 className="travel-time">30 min</h6>
-                  </td>
-                  <td>
-                    <h6 className="platform">Platform no.1</h6>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan="2">
-                    <h5 className="show-stations">Show Stations</h5>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan="2">
-                    <h3 className="destination-station">Destination Station</h3>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan="2">
-                    <center>
-                    <button className='button-34' onClick={ToBookSeat}>Book</button>
-                    </center>
-                  
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <table className="table table-bordered">
-              <tbody>
-                <tr>
-                  <td>
-                    <h3 className="source-station">Source Station1</h3>
-                  </td>
-                  <td>
-                    <h6 className="departure-time">12.30 pm</h6>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <h6 className="travel-time">30 min</h6>
-                  </td>
-                  <td>
-                    <h6 className="platform">Platform no.1</h6>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan="2">
-                    <h5 className="show-stations">Show Stations</h5>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan="2">
-                    <h3 className="destination-station">Destination Station</h3>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan="2">
-                    <center>
-                    <button className='button-34' onClick={ToBookSeat}>Book</button>
-                    </center>
-                  
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <table className="table table-bordered">
-              <tbody>
-                <tr>
-                  <td>
-                    <h3 className="source-station">Source Station1</h3>
-                  </td>
-                  <td>
-                    <h6 className="departure-time">12.30 pm</h6>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <h6 className="travel-time">30 min</h6>
-                  </td>
-                  <td>
-                    <h6 className="platform">Platform no.1</h6>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan="2">
-                    <h5 className="show-stations">Show Stations</h5>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan="2">
-                    <h3 className="destination-station">Destination Station</h3>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan="2">
-                    <center>
-                    <button className='button-34' onClick={ToBookSeat}>Book</button>
-                    </center>
-                  
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <table className="table table-bordered">
-              <tbody>
-                <tr>
-                  <td>
-                    <h3 className="source-station">Source Station1</h3>
-                  </td>
-                  <td>
-                    <h6 className="departure-time">12.30 pm</h6>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <h6 className="travel-time">30 min</h6>
-                  </td>
-                  <td>
-                    <h6 className="platform">Platform no.1</h6>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan="2">
-                    <h5 className="show-stations">Show Stations</h5>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan="2">
-                    <h3 className="destination-station">Destination Station</h3>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan="2">
-                    <center>
-                    <button className='button-34' onClick={ToBookSeat}>Book</button>
-                    </center>
-                  
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-         
-        </div>
-      </div> */}
-
-
-    </>
+      ))}
+    </div>
   );
 }
 

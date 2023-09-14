@@ -6,7 +6,7 @@ function Home() {
   const logoSrc = "https://drive.google.com/uc?id=1-K4qi7rN42OF0596nSWDv6WMv7XL-IB0";
   const aboutDecImage = "https://drive.google.com/uc?id=1gCNAkNgQmwxSX5RzCBUcpjk8PvAbWFej";
   const history = useHistory();
-
+  sessionStorage.setItem("isLoggedIn",false);
     const ToShowTrains = () => {
         history.push('/showtrains');
     };
@@ -29,7 +29,7 @@ function Home() {
                           <br />
                           <p style={{ fontSize: '15px', color: 'grey', fontFamily: 'Poppins, sans-serif' }}>Redefining Urban Transportation. Seamlessly connecting diverse landscapes, our advanced metro system unlocks Pune's true potential. Enjoy unmatched comfort, reliability, and sustainability, paving the way for a brighter future of mobility</p>
                           <div className="border-first-button scroll-to-section">
-                            <button type="button" className="btn btn-outline-primary" style={{ height: '45px', width: '90px',  fontSize: '15px' }} onClick={ToShowTrains}>Book Trains</button>
+                            <button type="button" className="btn btn-outline-info" style={{ height: '45px', width: '90px',  fontSize: '15px' }} onClick={ToShowTrains}>Book Trains</button>
                           </div>
                         </div>
                       </div>
@@ -56,10 +56,11 @@ function Home() {
             </div>
             <div className="col-lg-6 align-self-center wow fadeInRight" style={{ paddingLeft: '100px' }} data-wow-duration="1s" data-wow-delay="0.5s">
               <div className="about-right-content">
-                <h6>About Us</h6>
-                <h4><em>Pune Metro</em></h4>
+                <h6 style={{ fontSize: '20px', color: 'black', fontFamily: 'Poppins, sans-serif' }}>About Us</h6>
+                <h4 style={{ fontSize: '20px', color: '#5E5DF0'
+                , fontFamily: 'Poppins, sans-serif' }}><em>Pune Metro</em></h4>
                 <div className="line-dec"></div>
-                <p>
+                <p style={{ fontSize: '15px', color: 'grey', fontFamily: 'Poppins, sans-serif' }}>
                   Pune, the cultural and historical capital of the state of Maharashtra, known as the 'Queen of Deccan' due to its scenic beauty and rich natural resources.
                   The birthplace of the holy saint Tukaram, the capital of the greatest warrior king of all time Chhatrapati Shivaji Maharaj who established "Hindavi Swarajya," social reformers Mahatma Jyotiba Phule, Savitribai Phule, Maharshi Karve, home of great freedom fighters like Bal Gangadhar Tilak, Agarkar, and Gopal Krishna Gokhale.
                   <br />

@@ -7,7 +7,6 @@ import { useState } from "react";
 
 
 function SignIn() {
-  // debugger;
     const history = useHistory();
     const ToSignup = () => {
         history.push('/signup');
@@ -29,30 +28,26 @@ function SignIn() {
 
 
       const INSERT = ()=>{
-        // debugger;
           var helper = new XMLHttpRequest();
           helper.onreadystatechange = ()=>{
             if(helper.readyState == 4 && helper.status == 200)
             {
-              debugger;
               var result = JSON.parse(helper.responseText);
                 setMessage("Insert Successfully")
                 setUserData(result);
-                console.log(result.user_name);
                 sessionStorage.setItem('userName', result.user_name);
                 sessionStorage.setItem('userId', result.user_id);
                 sessionStorage.setItem("userData", userData);
                 sessionStorage.setItem("isLoggedIn", true);
                 history.push('/home');
                 window.location.reload();
-              
             }
             else
             {
               setMessage("Something Went Wrong");
             }
           };
-          helper.open("POST", "http://localhost:53331/api/Login/SignIn");
+          helper.open("POST", "http://localhost:53331/api/Login");
           helper.setRequestHeader("Content-Type", "application/json");
           helper.send(JSON.stringify(login));
       };
